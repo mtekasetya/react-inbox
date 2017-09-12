@@ -4,7 +4,6 @@
     <list default="true" id="ef7e676c-78b7-43c7-869e-4326d5b3234c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.js" afterPath="$PROJECT_DIR$/src/App.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/inbox/Message.js" afterPath="$PROJECT_DIR$/src/inbox/Message.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/inbox/Toolbar.js" afterPath="$PROJECT_DIR$/src/inbox/Toolbar.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,26 +15,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="App.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1625">
-              <caret line="97" column="18" lean-forward="false" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="18" />
+            <state relative-caret-position="335">
+              <caret line="101" column="6" lean-forward="false" selection-start-line="101" selection-start-column="6" selection-end-line="101" selection-end-column="6" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
-                <marker date="1505186341000" expanded="true" signature="2045:2521" ph="..." />
-                <marker date="1505186341000" expanded="true" signature="2063:2336" ph="..." />
-                <marker date="1505186341000" expanded="true" signature="2355:2508" ph="..." />
+                <marker date="1505188721000" expanded="true" signature="2338:2875" ph="..." />
+                <marker date="1505188721000" expanded="true" signature="2356:2690" ph="..." />
+                <marker date="1505188721000" expanded="true" signature="2709:2862" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Toolbar.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Toolbar.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/inbox/Toolbar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="25" column="83" lean-forward="false" selection-start-line="25" selection-start-column="83" selection-end-line="25" selection-end-column="83" />
+            <state relative-caret-position="-282">
+              <caret line="20" column="127" lean-forward="false" selection-start-line="20" selection-start-column="127" selection-end-line="20" selection-end-column="127" />
               <folding />
             </state>
           </provider>
@@ -128,9 +127,9 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/inbox/Messages.js" />
         <option value="$PROJECT_DIR$/src/inbox/inboxData.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/inbox/Message.js" />
         <option value="$PROJECT_DIR$/src/inbox/Toolbar.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
       </list>
     </option>
   </component>
@@ -305,12 +304,12 @@
       <option name="presentableId" value="Default" />
       <updated>1505056599025</updated>
       <workItem from="1505056600243" duration="15383000" />
-      <workItem from="1505172774774" duration="10497000" />
+      <workItem from="1505172774774" duration="11590000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25880000" />
+    <option name="totallyTimeSpent" value="26973000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1053" extended-state="0" />
@@ -362,9 +361,9 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
-            <marker date="1505186341000" expanded="true" signature="2045:2521" ph="..." />
-            <marker date="1505186341000" expanded="true" signature="2063:2336" ph="..." />
-            <marker date="1505186341000" expanded="true" signature="2355:2508" ph="..." />
+            <marker date="1505188721000" expanded="true" signature="2338:2875" ph="..." />
+            <marker date="1505188721000" expanded="true" signature="2356:2690" ph="..." />
+            <marker date="1505188721000" expanded="true" signature="2709:2862" ph="..." />
           </folding>
         </state>
       </provider>
@@ -466,24 +465,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
+    <entry file="file://$PROJECT_DIR$/src/inbox/Toolbar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1625">
-          <caret line="97" column="18" lean-forward="false" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <marker date="1505186341000" expanded="true" signature="2045:2521" ph="..." />
-            <marker date="1505186341000" expanded="true" signature="2063:2336" ph="..." />
-            <marker date="1505186341000" expanded="true" signature="2355:2508" ph="..." />
-          </folding>
+        <state relative-caret-position="-282">
+          <caret line="20" column="127" lean-forward="false" selection-start-line="20" selection-start-column="127" selection-end-line="20" selection-end-column="127" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/inbox/Toolbar.js">
+    <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="25" column="83" lean-forward="false" selection-start-line="25" selection-start-column="83" selection-end-line="25" selection-end-column="83" />
-          <folding />
+        <state relative-caret-position="335">
+          <caret line="101" column="6" lean-forward="false" selection-start-line="101" selection-start-column="6" selection-end-line="101" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <marker date="1505188721000" expanded="true" signature="2338:2875" ph="..." />
+            <marker date="1505188721000" expanded="true" signature="2356:2690" ph="..." />
+            <marker date="1505188721000" expanded="true" signature="2709:2862" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

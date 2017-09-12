@@ -18,12 +18,12 @@ const isDisabled = (messages) => {
   return !result;
 };
 
-const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead, onHandleMarkedAsUnread}) => (
+const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead, onHandleMarkedAsUnread, onHandleDeleteMessage}) => (
   <div className="row toolbar">
     <div className="col-md-12">
       <p className="pull-right">
         <span className="badge badge">{getUnreadMessageCount(messages)}</span>
-        {getUnreadMessageCount(messages) !== 1 ? `unread messages`: `unread message`}
+        {getUnreadMessageCount(messages) !== 1 ? `unread messages` : `unread message`}
       </p>
 
       <button className="btn btn-default" onClick={(e) => onHandleSelectAll(isSelectAll)}>
@@ -52,7 +52,7 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
         <option value="gschool">gschool</option>
       </select>
 
-      <button className="btn btn-default" disabled={isDisabled(messages)}>
+      <button className="btn btn-default" disabled={isDisabled(messages)} onClick={() => onHandleDeleteMessage()}>
         <i className="fa fa-trash-o"></i>
       </button>
     </div>

@@ -91,6 +91,21 @@ class App extends Component {
     });
   };
 
+  onHandleDeleteMessage = () => {
+    // Copy array to local
+    const data = Object.assign([], this.state.messages);
+
+    const results = data.filter(message => {
+      return message.selected !== true;
+    });
+
+    // Update state
+    this.setState({
+      messages: results,
+    });
+
+  };
+
   render() {
     return (
       <div className="container">
@@ -100,6 +115,7 @@ class App extends Component {
           onHandleSelectAll={this.onHandleSelectAll}
           onHandleMarkedAsRead={this.onHandleMarkedAsRead}
           onHandleMarkedAsUnread={this.onHandleMarkedAsUnread}
+          onHandleDeleteMessage={this.onHandleDeleteMessage}
         />
         <Messages
           messages={this.state.messages}
