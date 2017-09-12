@@ -106,6 +106,47 @@ class App extends Component {
 
   };
 
+  onHandleAddLabel = (value) => {
+    // Copy array to local
+    const data = Object.assign([], this.state.messages);
+
+    data.forEach(message => {
+      if (message.selected) {
+        if (!message.labels.includes(value) && value !== 'Apply label') {
+          message.labels.push(value);
+        }
+      }
+    });
+
+    // Update state
+    this.setState({
+      messages: data,
+    });
+  };
+
+  onHandleRemoveLabel = (value) => {
+    // Copy array to local
+    const data = Object.assign([], this.state.messages);
+
+    data.forEach(message => {
+      if (message.selected) {
+        if (message.labels.includes(value) && value !== 'Apply label') {
+
+          // Find index.
+          const index = message.labels.indexOf(value);
+          if (index > -1) {
+            message.labels.splice(index, 1);
+          }
+        }
+      }
+    });
+
+    // Update state
+    this.setState({
+      messages: data,
+    });
+  };
+
   render() {
     return (
       <div className="container">
@@ -116,6 +157,8 @@ class App extends Component {
           onHandleMarkedAsRead={this.onHandleMarkedAsRead}
           onHandleMarkedAsUnread={this.onHandleMarkedAsUnread}
           onHandleDeleteMessage={this.onHandleDeleteMessage}
+          onHandleAddLabel={this.onHandleAddLabel}
+          onHandleRemoveLabel={this.onHandleRemoveLabel}
         />
         <Messages
           messages={this.state.messages}

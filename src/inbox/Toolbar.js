@@ -18,7 +18,7 @@ const isDisabled = (messages) => {
   return !result;
 };
 
-const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead, onHandleMarkedAsUnread, onHandleDeleteMessage}) => (
+const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead, onHandleMarkedAsUnread, onHandleDeleteMessage, onHandleAddLabel, onHandleRemoveLabel}) => (
   <div className="row toolbar">
     <div className="col-md-12">
       <p className="pull-right">
@@ -38,14 +38,18 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
         Mark As Unread
       </button>
 
-      <select className="form-control label-select" disabled={isDisabled(messages)}>
+      <select className="form-control label-select"
+              onChange={(e) => onHandleAddLabel(e.target.value)}
+              disabled={isDisabled(messages)}>
         <option>Apply label</option>
         <option value="dev">dev</option>
         <option value="personal">personal</option>
         <option value="gschool">gschool</option>
       </select>
 
-      <select className="form-control label-select" disabled={isDisabled(messages)}>
+      <select className="form-control label-select"
+              onChange={(e) => onHandleRemoveLabel(e.target.value)}
+              disabled={isDisabled(messages)}>
         <option>Remove label</option>
         <option value="dev">dev</option>
         <option value="personal">personal</option>
