@@ -4,8 +4,10 @@ const getClassName = (read, selected) => `row message ${read ? `read` : `unread`
 const getStartClassName = starred => `star fa fa-star${starred ? `` : `-o`}`.trim();
 const getLabels = labels => {
   return labels && labels.map((label, i) => {
-    return <span key={i} className="label label-warning">{label}</span>
-  })
+    return (
+      <span key={i} className="label label-warning">{label}</span>
+    );
+  });
 };
 
 const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred}) => (
@@ -43,4 +45,4 @@ const Message = ({id, subject, read, starred, labels, selected, onHandleSelectio
   </div>
 );
 
-export default Message
+export default Message;

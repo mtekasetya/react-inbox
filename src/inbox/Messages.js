@@ -10,9 +10,9 @@ const Messages = ({messages, onHandleSelection, onHandleStarred}) => (
           onHandleSelection={onHandleSelection}
           onHandleStarred={onHandleStarred}
           {...message}/>
-      )
+      );
     })}
   </div>
 );
 
-export default Messages
+export default Messages;

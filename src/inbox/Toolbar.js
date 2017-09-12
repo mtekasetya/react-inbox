@@ -78,4 +78,4 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
   </div>
 );
 
-export default Toolbar
+export default Toolbar;
