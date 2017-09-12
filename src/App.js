@@ -15,16 +15,16 @@ class App extends Component {
 
   onHandleSelection = (value) => {
     // Copy array to local
-    const data = Object.assign([], this.state.messages);
+    const messages = Object.assign([], this.state.messages);
 
     // Find index.
-    const index = data.findIndex(message => message.id === parseInt(value.id, 10));
+    const index = messages.findIndex(message => message.id === parseInt(value.id, 10));
 
     // Update object
-    data[index].selected = value.checked;
+    messages[index].selected = value.checked;
 
     // Update state
-    this.setState({messages: data});
+    this.setState({messages});
   };
 
   onHandleStarred = (id) => {
@@ -45,12 +45,48 @@ class App extends Component {
     // Copy array to local
     const data = Object.assign([], this.state.messages);
 
+    // Update object
     data.forEach(message => {
       message.selected = !value;
     });
 
+    // Update state
     this.setState({
       isSelectAll: !value,
+      messages: data,
+    });
+  };
+
+  onHandleMarkedAsRead = () => {
+    // Copy array to local
+    const data = Object.assign([], this.state.messages);
+
+    // Update object
+    data.forEach(message => {
+      if (message.selected) {
+        message.read = true;
+      }
+    });
+
+    // Update state
+    this.setState({
+      messages: data,
+    });
+  };
+
+  onHandleMarkedAsUnread = () => {
+    // Copy array to local
+    const data = Object.assign([], this.state.messages);
+
+    // Update object
+    data.forEach(message => {
+      if (message.selected) {
+        message.read = false;
+      }
+    });
+
+    // Update state
+    this.setState({
       messages: data,
     });
   };
@@ -62,6 +98,8 @@ class App extends Component {
           messages={this.state.messages}
           isSelectAll={this.state.isSelectAll}
           onHandleSelectAll={this.onHandleSelectAll}
+          onHandleMarkedAsRead={this.onHandleMarkedAsRead}
+          onHandleMarkedAsUnread={this.onHandleMarkedAsUnread}
         />
         <Messages
           messages={this.state.messages}

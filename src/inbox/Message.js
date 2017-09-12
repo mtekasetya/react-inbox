@@ -1,14 +1,14 @@
 import React from 'react';
 
-export const getClassName = (read, selected) => `row message ${read ? `read` : `unread`} ${selected ? `selected` : ``}`.trim();
-export const getStartClassName = starred => `star fa fa-star${starred ? `` : `-o`}`.trim();
-export const getLabels = labels => {
+const getClassName = (read, selected) => `row message ${read ? `read` : `unread`} ${selected ? `selected` : ``}`.trim();
+const getStartClassName = starred => `star fa fa-star${starred ? `` : `-o`}`.trim();
+const getLabels = labels => {
   return labels && labels.map((label, i) => {
     return <span key={i} className="label label-warning">{label}</span>
   })
 };
 
-export const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred}) => (
+const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred}) => (
   <div>
     <div className={getClassName(read, selected)}>
       <div className="col-xs-1">
