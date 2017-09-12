@@ -18,6 +18,21 @@ const isDisabled = (messages) => {
   return !result;
 };
 
+const getSelectAllClass = (messages) => {
+  const length = messages.length;
+  const results = messages.filter(message => {
+    return message.selected === true;
+  });
+
+  if (results.length === length) { //? 'fa fa-check-square-o'
+    return 'fa fa-check-square-o';
+  } else if (results.length > 0 && results.length < length) {
+    return 'fa fa-minus-square-o';
+  } else {
+    return 'fa fa-square-o';
+  }
+};
+
 const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead, onHandleMarkedAsUnread, onHandleDeleteMessage, onHandleAddLabel, onHandleRemoveLabel}) => (
   <div className="row toolbar">
     <div className="col-md-12">
@@ -27,7 +42,7 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
       </p>
 
       <button className="btn btn-default" onClick={(e) => onHandleSelectAll(isSelectAll)}>
-        <i className="fa fa-square-o"></i>
+        <i className={getSelectAllClass(messages)}></i>
       </button>
 
       <button className="btn btn-default" onClick={(e) => onHandleMarkedAsRead()} disabled={isDisabled(messages)}>
