@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: inboxData
+      messages: inboxData,
+      isSelectAll: false,
     }
   }
 
@@ -17,7 +18,7 @@ class App extends Component {
     const data = Object.assign([], this.state.messages);
 
     // Find index.
-    const index = data.findIndex(message => message.id === value.id);
+    const index = data.findIndex(message => message.id === parseInt(value.id, 10));
 
     // Update object
     data[index].selected = value.checked;
@@ -40,14 +41,33 @@ class App extends Component {
     this.setState({messages: data});
   };
 
+  onHandleSelectAll = (value) => {
+    // Copy array to local
+    const data = Object.assign([], this.state.messages);
+
+    data.forEach(message => {
+      message.selected = !value;
+    });
+
+    this.setState({
+      isSelectAll: !value,
+      messages: data,
+    });
+  };
+
   render() {
     return (
       <div className="container">
-        <Toolbar messages={this.state.messages}/>
+        <Toolbar
+          messages={this.state.messages}
+          isSelectAll={this.state.isSelectAll}
+          onHandleSelectAll={this.onHandleSelectAll}
+        />
         <Messages
           messages={this.state.messages}
           onHandleSelection={this.onHandleSelection}
-          onHandleStarred={this.onHandleStarred}/>
+          onHandleStarred={this.onHandleStarred}
+        />
       </div>
     );
   }
