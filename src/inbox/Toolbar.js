@@ -21,10 +21,14 @@ const isDisabled = (messages) => {
 const getSelectAllClass = (messages) => {
   const length = messages.length;
   const results = messages.filter(message => {
-    return message.selected === true;
+    if (message.hasOwnProperty('selected')) {
+      return message.selected === true;
+    }
+    message.selected = false;
+    return message.selected;
   });
 
-  if (results.length === length) { //? 'fa fa-check-square-o'
+  if (results.length === length) {
     return 'fa fa-check-square-o';
   } else if (results.length > 0 && results.length < length) {
     return 'fa fa-minus-square-o';

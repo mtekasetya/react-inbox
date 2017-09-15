@@ -2,15 +2,22 @@ import React, {Component} from 'react';
 import './App.css';
 import Toolbar from './inbox/Toolbar';
 import Messages from './inbox/Messages';
-import inboxData from './inbox/inboxData'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: inboxData,
+      messages: [],
       isSelectAll: false,
     }
+  }
+
+  async componentDidMount() {
+    const result = await fetch(`/api/messages`);
+    const data = await result.json();
+    this.setState({
+      messages: data._embedded.messages
+    })
   }
 
   onHandleSelection = (value) => {
