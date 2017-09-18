@@ -37,13 +37,26 @@ export const getSelectAllClass = messages => {
   }
 };
 
-const Toolbar = ({messages, onHandleSelectAll, onHandleMarkAsRead, onHandleMarkAsUnRead, onHandleAddLabel, onHandleRemoveLabel, onHandleDelete}) => (
+const Toolbar = ({
+                   messages,
+                   onHandleSelectAll,
+                   onHandleMarkAsRead,
+                   onHandleMarkAsUnRead,
+                   onHandleAddLabel,
+                   onHandleRemoveLabel,
+                   onHandleDelete,
+                   onHandleCompose,
+                 }) => (
   <div className="row toolbar">
     <div className="col-md-12">
       <p className="pull-right">
         <span className="badge badge">{getUnreadMessageCount(messages)}</span>
         {getUnreadMessageCount(messages) !== 1 ? `unread messages` : `unread message`}
       </p>
+
+      <a className="btn btn-danger" onClick={onHandleCompose}>
+        <i className="fa fa-plus"></i>
+      </a>
 
       <button className="btn btn-default" onClick={onHandleSelectAll}>
         <i className={getSelectAllClass(messages)}></i>

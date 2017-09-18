@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       messages: [],
       isSelectAll: false,
+      isCompose: false,
     };
     this.onHandleFetch = this.onHandleFetch.bind(this);
     this.onHandleSelection = this.onHandleSelection.bind(this);
@@ -171,7 +172,7 @@ class App extends Component {
     this.setState({messages});
   };
 
-  onHandleOptions = (payload) => {
+  onHandleOptions = payload => {
     return {
       method: 'PATCH',
       body: JSON.stringify(payload),
@@ -251,6 +252,10 @@ class App extends Component {
       });
   };
 
+  onHandleCompose = () => {
+    this.setState({isCompose: !this.state.isCompose})
+  };
+
   render() {
     return (
       <div className="container">
@@ -262,11 +267,13 @@ class App extends Component {
           onHandleAddLabel={this.onHandleAddLabel}
           onHandleRemoveLabel={this.onHandleRemoveLabel}
           onHandleDelete={this.onHandleDelete}
+          onHandleCompose={this.onHandleCompose}
         />
         <Messages
           messages={this.state.messages}
           onHandleSelection={this.onHandleSelection}
           onHandleStarred={this.onHandleStarred}
+          isCompose={this.state.isCompose}
         />
       </div>
     );
