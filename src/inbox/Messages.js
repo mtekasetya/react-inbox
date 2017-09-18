@@ -4,7 +4,8 @@ import Message from './Message';
 const Messages = ({
                     messages,
                     isCompose,
-                    message,
+                    subject,
+                    body,
                     onHandleSelection,
                     onHandleStarred,
                     onHandleSubmit,
@@ -25,8 +26,8 @@ const Messages = ({
           <div className="col-sm-8">
             <input
               type="text"
-              onChange={onHandleBodyChange}
-              value={message.subject}
+              onChange={(e) => onHandleSubjectChange(e.target.value)}
+              value={subject}
               className="form-control"
               id="subject"
               placeholder="Enter a subject"
@@ -39,7 +40,8 @@ const Messages = ({
             <textarea
               name="body"
               id="body"
-              value={message.values}
+              value={body}
+              onChange={(e) => onHandleBodyChange(e.target.value)}
               className="form-control"/>
           </div>
         </div>

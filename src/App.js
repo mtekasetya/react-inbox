@@ -8,16 +8,16 @@ class App extends Component {
     super(props);
     this.state = {
       messages: [],
-      message: {
-        subject: '',
-        body: '',
-      },
+      subject: '',
+      body: '',
       isSelectAll: false,
       isCompose: false,
     };
     this.onHandleFetch = this.onHandleFetch.bind(this);
     this.onHandleSelection = this.onHandleSelection.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
+    this.onHandleSubjectChange = this.onHandleSubjectChange.bind(this);
+    this.onHandleBodyChange = this.onHandleBodyChange.bind(this);
   }
 
   async componentDidMount() {
@@ -261,19 +261,15 @@ class App extends Component {
     this.setState({isCompose: !this.state.isCompose})
   };
 
-  onHandleSubjectChange = event => {
+  onHandleSubjectChange(value) {
     this.setState({
-      message: {
-        subject: event.target.value
-      }
+      subject: value
     })
   };
 
-  onHandleBodyChange = event => {
+  onHandleBodyChange(value) {
     this.setState({
-      message: {
-        subject: event.target.value
-      }
+      body: value
     })
   };
 
@@ -282,8 +278,8 @@ class App extends Component {
     const messages = this.state.messages.slice();
 
     const payload = {
-      subject: this.state.message.subject,
-      body: this.state.message.body,
+      subject: this.state.subject,
+      body: this.state.body
     };
 
     const options = this.onHandleOptions(payload, 'POST');
@@ -293,7 +289,9 @@ class App extends Component {
     messages.push(message);
     this.setState({
       messages,
-      isCompose: false,
+      isCompose: false, // close the compose email
+      subject: '', // reset
+      body: '', // reset
     });
   };
 
@@ -312,7 +310,8 @@ class App extends Component {
         />
         <Messages
           messages={this.state.messages}
-          message={this.state.message}
+          subject={this.state.subject}
+          body={this.state.body}
           isCompose={this.state.isCompose}
           onHandleSelection={this.onHandleSelection}
           onHandleStarred={this.onHandleStarred}
