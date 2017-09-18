@@ -8,11 +8,16 @@ class App extends Component {
     super(props);
     this.state = {
       messages: [],
+      message: {
+        subject: '',
+        body: '',
+      },
       isSelectAll: false,
       isCompose: false,
     };
     this.onHandleFetch = this.onHandleFetch.bind(this);
     this.onHandleSelection = this.onHandleSelection.bind(this);
+    this.onHandleSubmit = this.onHandleSubmit.bind(this);
   }
 
   async componentDidMount() {
@@ -172,9 +177,9 @@ class App extends Component {
     this.setState({messages});
   };
 
-  onHandleOptions = payload => {
+  onHandleOptions = (payload, method = 'PATCH') => {
     return {
-      method: 'PATCH',
+      method: method,
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
@@ -256,6 +261,42 @@ class App extends Component {
     this.setState({isCompose: !this.state.isCompose})
   };
 
+  onHandleSubjectChange = event => {
+    this.setState({
+      message: {
+        subject: event.target.value
+      }
+    })
+  };
+
+  onHandleBodyChange = event => {
+    this.setState({
+      message: {
+        subject: event.target.value
+      }
+    })
+  };
+
+  async onHandleSubmit(event) {
+    event.preventDefault();
+    const messages = this.state.messages.slice();
+
+    const payload = {
+      subject: this.state.message.subject,
+      body: this.state.message.body,
+    };
+
+    const options = this.onHandleOptions(payload, 'POST');
+
+    const response = await this.onHandleFetch('/api/messages/', options);
+    const message = await response.json();
+    messages.push(message);
+    this.setState({
+      messages,
+      isCompose: false,
+    });
+  };
+
   render() {
     return (
       <div className="container">
@@ -271,9 +312,13 @@ class App extends Component {
         />
         <Messages
           messages={this.state.messages}
+          message={this.state.message}
+          isCompose={this.state.isCompose}
           onHandleSelection={this.onHandleSelection}
           onHandleStarred={this.onHandleStarred}
-          isCompose={this.state.isCompose}
+          onHandleSubmit={this.onHandleSubmit}
+          onHandleSubjectChange={this.onHandleSubjectChange}
+          onHandleBodyChange={this.onHandleBodyChange}
         />
       </div>
     );
