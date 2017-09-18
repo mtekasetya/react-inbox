@@ -1,8 +1,8 @@
 import React from 'react';
 
-const getClassName = (read, selected) => `row message ${read ? `read` : `unread`} ${selected ? `selected` : ``}`.trim();
-const getStartClassName = starred => `star fa fa-star${starred ? `` : `-o`}`.trim();
-const getLabels = labels => {
+export const getClassName = (read, selected) => `row message ${read ? `read` : `unread`} ${selected ? `selected` : ``}`.trim();
+export const getStartClassName = starred => `star fa fa-star${starred ? `` : `-o`}`.trim();
+export const getLabels = labels => {
   return labels && labels.map((label, i) => {
     return (
       <span key={i} className="label label-warning">{label}</span>
@@ -30,7 +30,7 @@ const Message = ({id, subject, read, starred, labels, selected, onHandleSelectio
               id={id}
               className={getStartClassName(starred)}
               value={starred}
-              onClick={(e) => onHandleStarred(id)}>
+              onClick={onHandleStarred}>
             </i>
           </div>
         </div>

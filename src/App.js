@@ -9,149 +9,246 @@ class App extends Component {
     this.state = {
       messages: [],
       isSelectAll: false,
-    }
+    };
+    this.onHandleFetch = this.onHandleFetch.bind(this);
+    this.onHandleSelection = this.onHandleSelection.bind(this);
   }
 
   async componentDidMount() {
-    const result = await fetch(`/api/messages`);
-    const data = await result.json();
-    this.setState({
-      messages: data._embedded.messages
-    })
+    try {
+      const response = await this.onHandleFetch('/api/messages');
+      const messages = await response.json();
+      this.setState({
+        messages: messages._embedded.messages || [],
+      });
+    } catch (error) {
+      this.onHandleError(error);
+    }
   }
 
-  onHandleSelection = (value) => {
-    // Copy array to local
-    const messages = Object.assign([], this.state.messages);
+  async onHandleFetch(url, options = {method: 'GET'}) {
+    return await fetch(url, options);
+  }
+
+  onHandleStarred = event => {
+    // Clone array
+    const messages = this.state.messages.slice();
 
     // Find index.
-    const index = messages.findIndex(message => message.id === parseInt(value.id, 10));
+    const index = messages.findIndex(message => message.id === parseInt(event.target.id, 10));
 
     // Update object
-    messages[index].selected = value.checked;
+    messages[index].starred = !messages[index].starred; // toggling true/false
+
+    const payload = {
+      command: "star",
+      messageIds: [event.target.id],
+      star: messages[index].starred
+    };
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
+  };
+
+  onHandleSelectAll = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+    const isSelectAll = !this.state.isSelectAll; //toggle
+    messages.forEach(message => {
+      message.selected = isSelectAll;
+    });
+
+    this.setState({
+      messages,
+      isSelectAll
+    })
+  };
+
+  onHandleMarkAsRead = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+
+    let messageIds = [];
+    messages.forEach(message => {
+      if (message.selected) {
+        message.read = true;
+        messageIds.push(message.id);
+      }
+    });
+
+    const payload = {
+      command: "read",
+      read: true,
+      messageIds,
+    };
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
+  };
+
+  onHandleMarkAsUnRead = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+
+    let messageIds = [];
+    messages.forEach(message => {
+      if (message.selected) {
+        message.read = false;
+        messageIds.push(message.id);
+      }
+    });
+
+    const payload = {
+      command: "read",
+      read: false,
+      messageIds,
+    };
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
+  };
+
+  onHandleDelete = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+
+    let messageIds = [];
+    messages.forEach(message => {
+      if (message.selected) {
+        messageIds.push(message.id);
+      }
+    });
+
+    const payload = {
+      command: "delete",
+      messageIds,
+    };
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        const results = messages.filter(message => {
+          return message.selected !== true;
+        });
+        this.setState({
+          messages: results,
+        });
+      });
+  };
+
+  onHandleError = error => console.error(`Error encountered while getting data from server: ${error}`);
+
+  onHandleSelection({id, checked}) {
+    // Clone array
+    const messages = this.state.messages.slice();
+
+    // Find index.
+    const index = messages.findIndex(message => message.id === parseInt(id, 10));
+
+    // Update object
+    messages[index].selected = checked;
 
     // Update state
     this.setState({messages});
   };
 
-  onHandleStarred = (id) => {
-    // Copy array to local
-    const data = Object.assign([], this.state.messages);
-
-    // Find index.
-    const index = data.findIndex(message => message.id === id);
-
-    // Update object
-    data[index].starred = !data[index].starred;
-
-    // Update state
-    this.setState({messages: data});
-  };
-
-  onHandleSelectAll = (value) => {
-    // Copy array to local
-    const data = Object.assign([], this.state.messages);
-
-    // Update object
-    data.forEach(message => {
-      message.selected = !value;
-    });
-
-    // Update state
-    this.setState({
-      isSelectAll: !value,
-      messages: data,
-    });
-  };
-
-  onHandleMarkedAsRead = () => {
-    // Copy array to local
-    const data = Object.assign([], this.state.messages);
-
-    // Update object
-    data.forEach(message => {
-      if (message.selected) {
-        message.read = true;
+  onHandleOptions = (payload) => {
+    return {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       }
-    });
-
-    // Update state
-    this.setState({
-      messages: data,
-    });
+    };
   };
 
-  onHandleMarkedAsUnread = () => {
+  onHandleAddLabel = event => {
     // Copy array to local
-    const data = Object.assign([], this.state.messages);
+    const messages = this.state.messages.slice();
 
-    // Update object
-    data.forEach(message => {
+    let messageIds = [];
+    let labels = [];
+    const label = event.target.value;
+    messages.forEach(message => {
       if (message.selected) {
-        message.read = false;
-      }
-    });
-
-    // Update state
-    this.setState({
-      messages: data,
-    });
-  };
-
-  onHandleDeleteMessage = () => {
-    // Copy array to local
-    const data = Object.assign([], this.state.messages);
-
-    const results = data.filter(message => {
-      return message.selected !== true;
-    });
-
-    // Update state
-    this.setState({
-      messages: results,
-    });
-
-  };
-
-  onHandleAddLabel = (value) => {
-    // Copy array to local
-    const data = Object.assign([], this.state.messages);
-
-    data.forEach(message => {
-      if (message.selected) {
-        if (!message.labels.includes(value) && value !== 'Apply label') {
-          message.labels.push(value);
+        if (!message.labels.includes(label) && label !== 'Apply label') {
+          message.labels.push(label);
+          labels.push(label);
+          messageIds.push(message.id);
         }
       }
     });
 
-    // Update state
-    this.setState({
-      messages: data,
-    });
+    const payload = {
+      command: "addLabel",
+      label,
+      messageIds,
+    };
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
   };
 
-  onHandleRemoveLabel = (value) => {
+  onHandleRemoveLabel = event => {
     // Copy array to local
-    const data = Object.assign([], this.state.messages);
+    const messages = this.state.messages.slice();
 
-    data.forEach(message => {
+    let messageIds = [];
+    const label = event.target.value;
+    messages.forEach(message => {
       if (message.selected) {
-        if (message.labels.includes(value) && value !== 'Apply label') {
+        if (message.labels.includes(label) && label !== 'Apply label') {
 
           // Find index.
-          const index = message.labels.indexOf(value);
+          const index = message.labels.indexOf(label);
           if (index > -1) {
             message.labels.splice(index, 1);
+            messageIds.push(message.id);
           }
         }
       }
     });
 
-    // Update state
-    this.setState({
-      messages: data,
-    });
+    const payload = {
+      command: "removeLabel",
+      label,
+      messageIds,
+    };
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
   };
 
   render() {
@@ -159,13 +256,12 @@ class App extends Component {
       <div className="container">
         <Toolbar
           messages={this.state.messages}
-          isSelectAll={this.state.isSelectAll}
           onHandleSelectAll={this.onHandleSelectAll}
-          onHandleMarkedAsRead={this.onHandleMarkedAsRead}
-          onHandleMarkedAsUnread={this.onHandleMarkedAsUnread}
-          onHandleDeleteMessage={this.onHandleDeleteMessage}
+          onHandleMarkAsRead={this.onHandleMarkAsRead}
+          onHandleMarkAsUnRead={this.onHandleMarkAsUnRead}
           onHandleAddLabel={this.onHandleAddLabel}
           onHandleRemoveLabel={this.onHandleRemoveLabel}
+          onHandleDelete={this.onHandleDelete}
         />
         <Messages
           messages={this.state.messages}

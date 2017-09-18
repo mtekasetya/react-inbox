@@ -1,6 +1,6 @@
 import React from 'react';
 
-const getUnreadMessageCount = (messages) => {
+export const getUnreadMessageCount = messages => {
   let unreadCount = 0;
   messages.forEach(m => {
     if (!m.read) {
@@ -11,14 +11,14 @@ const getUnreadMessageCount = (messages) => {
   return unreadCount;
 };
 
-const isDisabled = (messages) => {
+export const isDisabled = messages => {
   const result = messages.find(message => {
     return message.selected === true;
   });
   return !result;
 };
 
-const getSelectAllClass = (messages) => {
+export const getSelectAllClass = messages => {
   const length = messages.length;
   const results = messages.filter(message => {
     if (message.hasOwnProperty('selected')) {
@@ -37,7 +37,7 @@ const getSelectAllClass = (messages) => {
   }
 };
 
-const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead, onHandleMarkedAsUnread, onHandleDeleteMessage, onHandleAddLabel, onHandleRemoveLabel}) => (
+const Toolbar = ({messages, onHandleSelectAll, onHandleMarkAsRead, onHandleMarkAsUnRead, onHandleAddLabel, onHandleRemoveLabel, onHandleDelete}) => (
   <div className="row toolbar">
     <div className="col-md-12">
       <p className="pull-right">
@@ -45,20 +45,20 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
         {getUnreadMessageCount(messages) !== 1 ? `unread messages` : `unread message`}
       </p>
 
-      <button className="btn btn-default" onClick={(e) => onHandleSelectAll(isSelectAll)}>
+      <button className="btn btn-default" onClick={onHandleSelectAll}>
         <i className={getSelectAllClass(messages)}></i>
       </button>
 
-      <button className="btn btn-default" onClick={(e) => onHandleMarkedAsRead()} disabled={isDisabled(messages)}>
+      <button className="btn btn-default" onClick={onHandleMarkAsRead} disabled={isDisabled(messages)}>
         Mark As Read
       </button>
 
-      <button className="btn btn-default" onClick={(e) => onHandleMarkedAsUnread()} disabled={isDisabled(messages)}>
+      <button className="btn btn-default" onClick={onHandleMarkAsUnRead} disabled={isDisabled(messages)}>
         Mark As Unread
       </button>
 
       <select className="form-control label-select"
-              onChange={(e) => onHandleAddLabel(e.target.value)}
+              onChange={onHandleAddLabel}
               disabled={isDisabled(messages)}>
         <option>Apply label</option>
         <option value="dev">dev</option>
@@ -67,7 +67,7 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
       </select>
 
       <select className="form-control label-select"
-              onChange={(e) => onHandleRemoveLabel(e.target.value)}
+              onChange={onHandleRemoveLabel}
               disabled={isDisabled(messages)}>
         <option>Remove label</option>
         <option value="dev">dev</option>
@@ -75,7 +75,7 @@ const Toolbar = ({messages, isSelectAll, onHandleSelectAll, onHandleMarkedAsRead
         <option value="gschool">gschool</option>
       </select>
 
-      <button className="btn btn-default" disabled={isDisabled(messages)} onClick={() => onHandleDeleteMessage()}>
+      <button className="btn btn-default" disabled={isDisabled(messages)} onClick={onHandleDelete}>
         <i className="fa fa-trash-o"></i>
       </button>
     </div>
