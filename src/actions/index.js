@@ -46,6 +46,15 @@ export function selectAllMessages(payload) {
   }
 }
 
+export function selectMessage(payload) {
+  return (dispatch) => {
+    dispatch({
+      type: SELECT_MESSAGE,
+      payload,
+    })
+  }
+}
+
 export function markAsRead(payload) {
   const options = getOptions(payload);
   return async (dispatch) => {

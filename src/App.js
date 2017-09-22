@@ -7,6 +7,7 @@ import Messages from './inbox/Messages';
 import {
   fetchMessages,
   selectAllMessages,
+  selectMessage,
   markAsRead,
   markAsUnread,
   starred,
@@ -105,7 +106,7 @@ class App extends Component {
 
   onHandleSelection({id, checked}) {
     // Clone array
-    const messages = this.state.messages.slice();
+    const messages = this.props.messages.slice();
 
     // Find index.
     const index = messages.findIndex(message => message.id === parseInt(id, 10));
@@ -113,8 +114,8 @@ class App extends Component {
     // Update object
     messages[index].selected = checked;
 
-    // Update state
-    this.setState({messages});
+    // Action
+    this.props.handleSelectMessage(messages);
   };
 
   onHandleAddLabel = event => {
@@ -273,6 +274,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleMarkAsRead: markAsRead,
   handleMarkAsUnread: markAsUnread,
   handleStarred: starred,
+  handleSelectMessage: selectMessage,
 }, dispatch);
 
 
