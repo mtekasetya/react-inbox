@@ -11,6 +11,7 @@ import {
   markAsRead,
   markAsUnread,
   starred,
+  deleteMessage,
 } from './actions'
 
 class App extends Component {
@@ -76,11 +77,8 @@ class App extends Component {
   };
 
   onHandleDelete = () => {
-    // Clone array
-    const messages = this.state.messages.slice();
-
     let messageIds = [];
-    messages.forEach(message => {
+    this.props.messages.forEach(message => {
       if (message.selected) {
         messageIds.push(message.id);
       }
@@ -88,20 +86,40 @@ class App extends Component {
 
     const payload = {
       command: "delete",
+      read: false,
       messageIds,
     };
 
-    const options = this.onHandleOptions(payload);
+    this.props.handleDelete(payload);
 
-    this.onHandleFetch('/api/messages/', options)
-      .then(() => {
-        const results = messages.filter(message => {
-          return message.selected !== true;
-        });
-        this.setState({
-          messages: results,
-        });
-      });
+
+
+    // // Clone array
+    // const messages = this.state.messages.slice();
+    //
+    // let messageIds = [];
+    // messages.forEach(message => {
+    //   if (message.selected) {
+    //     messageIds.push(message.id);
+    //   }
+    // });
+    //
+    // const payload = {
+    //   command: "delete",
+    //   messageIds,
+    // };
+    //
+    // const options = this.onHandleOptions(payload);
+    //
+    // this.onHandleFetch('/api/messages/', options)
+    //   .then(() => {
+    //     const results = messages.filter(message => {
+    //       return message.selected !== true;
+    //     });
+    //     this.setState({
+    //       messages: results,
+    //     });
+    //   });
   };
 
   onHandleSelect({id, checked}) {
@@ -275,6 +293,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleMarkAsUnread: markAsUnread,
   handleStarred: starred,
   handleSelectMessage: selectMessage,
+  handleDelete: deleteMessage,
 }, dispatch);
 
 

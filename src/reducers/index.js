@@ -6,6 +6,7 @@ import {
   MARK_AS_READ,
   MARK_AS_UNREAD,
   STARRED_MESSAGE,
+  DELETE_MESSAGE,
 } from '../actions'
 
 
@@ -64,6 +65,25 @@ function messageList(state = {messages: [], isSelectAll: false}, action) {
           message.read = false;
         }
         messages.push(message)
+      });
+
+      return {
+        ...state,
+        messages,
+      };
+    }
+
+    case DELETE_MESSAGE: {
+      // Create a local copy
+      let messages = [];
+      state.messages.forEach(message => {
+        if (!message.selected) {
+          messages.push(message)
+        }
+      });
+
+      messages.filter(message => {
+        return message.selected !== true;
       });
 
       return {
