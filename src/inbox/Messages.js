@@ -6,7 +6,7 @@ const Messages = ({
                     isCompose,
                     subject,
                     body,
-                    onHandleSelection,
+                    onHandleSelect,
                     onHandleStarred,
                     onHandleSubmit,
                     onHandleSubjectChange,
@@ -56,7 +56,7 @@ const Messages = ({
       return (
         <Message
           key={message.id}
-          onHandleSelection={onHandleSelection}
+          onHandleSelection={onHandleSelect}
           onHandleStarred={onHandleStarred}
           {...message}/>
       );

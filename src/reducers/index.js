@@ -44,7 +44,9 @@ function messageList(state = {messages: [], isSelectAll: false}, action) {
       // Create a local copy
       let messages = [];
       state.messages.forEach(message => {
-        message.read = true;
+        if (message.selected) {
+          message.read = true;
+        }
         messages.push(message)
       });
 
@@ -58,7 +60,9 @@ function messageList(state = {messages: [], isSelectAll: false}, action) {
       // Create a local copy
       let messages = [];
       state.messages.forEach(message => {
-        message.read = false;
+        if (message.selected) {
+          message.read = false;
+        }
         messages.push(message)
       });
 
