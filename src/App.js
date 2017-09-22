@@ -91,35 +91,6 @@ class App extends Component {
     };
 
     this.props.handleDelete(payload);
-
-
-
-    // // Clone array
-    // const messages = this.state.messages.slice();
-    //
-    // let messageIds = [];
-    // messages.forEach(message => {
-    //   if (message.selected) {
-    //     messageIds.push(message.id);
-    //   }
-    // });
-    //
-    // const payload = {
-    //   command: "delete",
-    //   messageIds,
-    // };
-    //
-    // const options = this.onHandleOptions(payload);
-    //
-    // this.onHandleFetch('/api/messages/', options)
-    //   .then(() => {
-    //     const results = messages.filter(message => {
-    //       return message.selected !== true;
-    //     });
-    //     this.setState({
-    //       messages: results,
-    //     });
-    //   });
   };
 
   onHandleSelect({id, checked}) {
