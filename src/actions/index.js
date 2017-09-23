@@ -120,3 +120,12 @@ export function removeLabel(payload) {
     })
   }
 }
+
+export function compose(payload) {
+  return dispatch => {
+    dispatch({
+      type: COMPOSE,
+      payload,
+    })
+  }
+}
