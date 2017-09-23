@@ -16,7 +16,7 @@ import {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.onHandleSelect = this.onHandleSelect.bind(this);
+    this.onHandleSelection = this.onHandleSelection.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
     this.onHandleSubjectChange = this.onHandleSubjectChange.bind(this);
     this.onHandleBodyChange = this.onHandleBodyChange.bind(this);
@@ -104,7 +104,7 @@ class App extends Component {
       });
   };
 
-  onHandleSelect({id, checked}) {
+  onHandleSelection({id, checked}) {
     // Clone array
     const messages = this.props.messages.slice();
 
@@ -244,7 +244,7 @@ class App extends Component {
               subject={this.props.subject}
               body={this.props.body}
               isCompose={this.props.isCompose}
-              onHandleSelect={this.onHandleSelect}
+              onHandleSelection={this.onHandleSelection}
               onHandleStarred={this.onHandleStarred}
               onHandleSubmit={this.onHandleSubmit}
               onHandleSubjectChange={this.onHandleSubjectChange}
