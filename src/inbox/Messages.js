@@ -26,7 +26,7 @@ const Messages = ({
           <div className="col-sm-8">
             <input
               type="text"
-              onChange={onHandleSubjectChange}
+              onChange={(e) => onHandleSubjectChange(e.target.value)}
               value={subject}
               className="form-control"
               id="subject"
@@ -41,7 +41,7 @@ const Messages = ({
               name="body"
               id="body"
               value={body}
-              onChange={onHandleBodyChange}
+              onChange={(e) => onHandleBodyChange(e.target.value)}
               className="form-control"/>
           </div>
         </div>

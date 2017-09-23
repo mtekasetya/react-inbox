@@ -129,21 +129,3 @@ export function compose(payload) {
     })
   }
 }
-
-export function subjectChange(payload) {
-  return dispatch => {
-    dispatch({
-      type: SUBJECT_CHANGE,
-      payload,
-    })
-  }
-}
-
-export function bodyChange(payload) {
-  return dispatch => {
-    dispatch({
-      type: BODY_CHANGE,
-      payload,
-    })
-  }
-}
