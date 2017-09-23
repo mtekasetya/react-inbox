@@ -1,49 +1,89 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import './App.css';
 import Toolbar from './inbox/Toolbar';
 import Messages from './inbox/Messages';
-import {
-  fetchMessages,
-  selectAllMessages,
-  markAsRead,
-  markAsUnread,
-  starred,
-} from './actions'
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      messages: [],
+      subject: '',
+      body: '',
+      isSelectAll: false,
+      isCompose: false,
+    };
+    this.onHandleFetch = this.onHandleFetch.bind(this);
     this.onHandleSelection = this.onHandleSelection.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
     this.onHandleSubjectChange = this.onHandleSubjectChange.bind(this);
     this.onHandleBodyChange = this.onHandleBodyChange.bind(this);
   }
 
-  componentDidMount() {
-    this.props.onHandleGetMessage();
+  async componentDidMount() {
+    try {
+      const response = await this.onHandleFetch('/api/messages');
+      const messages = await response.json();
+      this.setState({
+        messages: messages._embedded.messages || [],
+      });
+    } catch (error) {
+      this.onHandleError(error);
+    }
+  }
+
+  async onHandleFetch(url, options = {method: 'GET'}) {
+    return await fetch(url, options);
   }
 
   onHandleStarred = event => {
+    // Clone array
+    const messages = this.state.messages.slice();
+
     // Find index.
-    const index = this.props.messages.findIndex(message => message.id === parseInt(event.target.id, 10));
+    const index = messages.findIndex(message => message.id === parseInt(event.target.id, 10));
 
     // Update object
-    const star = !this.props.messages[index].starred; // toggle true/false
+    messages[index].starred = !messages[index].starred; // toggling true/false
+
     const payload = {
       command: "star",
       messageIds: [event.target.id],
-      star,
+      star: messages[index].starred
     };
 
-    this.props.handleStarred(payload);
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
+  };
+
+  onHandleSelectAll = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+    const isSelectAll = !this.state.isSelectAll; //toggle
+    messages.forEach(message => {
+      message.selected = isSelectAll;
+    });
+
+    this.setState({
+      messages,
+      isSelectAll
+    })
   };
 
   onHandleMarkAsRead = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+
     let messageIds = [];
-    this.props.messages.forEach(message => {
+    messages.forEach(message => {
       if (message.selected) {
+        message.read = true;
         messageIds.push(message.id);
       }
     });
@@ -54,13 +94,24 @@ class App extends Component {
       messageIds,
     };
 
-    this.props.handleMarkAsRead(payload);
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
   };
 
-  onHandleMarkAsUnread = () => {
+  onHandleMarkAsUnRead = () => {
+    // Clone array
+    const messages = this.state.messages.slice();
+
     let messageIds = [];
-    this.props.messages.forEach(message => {
+    messages.forEach(message => {
       if (message.selected) {
+        message.read = false;
         messageIds.push(message.id);
       }
     });
@@ -71,7 +122,14 @@ class App extends Component {
       messageIds,
     };
 
-    this.props.handleMarkAsUnread(payload);
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
   };
 
   onHandleDelete = () => {
@@ -103,6 +161,8 @@ class App extends Component {
       });
   };
 
+  onHandleError = error => console.error(`Error encountered while getting data from server: ${error}`);
+
   onHandleSelection({id, checked}) {
     // Clone array
     const messages = this.state.messages.slice();
@@ -115,6 +175,17 @@ class App extends Component {
 
     // Update state
     this.setState({messages});
+  };
+
+  onHandleOptions = (payload, method = 'PATCH') => {
+    return {
+      method: method,
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    };
   };
 
   onHandleAddLabel = event => {
@@ -205,11 +276,14 @@ class App extends Component {
   async onHandleSubmit(event) {
     event.preventDefault();
     const messages = this.state.messages.slice();
+
     const payload = {
       subject: this.state.subject,
       body: this.state.body
     };
+
     const options = this.onHandleOptions(payload, 'POST');
+
     const response = await this.onHandleFetch('/api/messages/', options);
     const message = await response.json();
     messages.push(message);
@@ -222,61 +296,32 @@ class App extends Component {
   };
 
   render() {
-
     return (
-      <div>
-        {this.props.messages.length &&
-        <div>
-          <div className="container">
-            <Toolbar
-              messages={this.props.messages}
-              onHandleSelectAll={this.props.onHandleSelectAll}
-              onHandleMarkAsRead={this.onHandleMarkAsRead}
-              onHandleMarkAsUnRead={this.onHandleMarkAsUnread}
-              onHandleAddLabel={this.onHandleAddLabel}
-              onHandleRemoveLabel={this.onHandleRemoveLabel}
-              onHandleDelete={this.onHandleDelete}
-              onHandleCompose={this.onHandleCompose}
-            />
-            <Messages
-              messages={this.props.messages}
-              subject={this.props.subject}
-              body={this.props.body}
-              isCompose={this.props.isCompose}
-              onHandleSelection={this.onHandleSelection}
-              onHandleStarred={this.onHandleStarred}
-              onHandleSubmit={this.onHandleSubmit}
-              onHandleSubjectChange={this.onHandleSubjectChange}
-              onHandleBodyChange={this.onHandleBodyChange}
-            />
-          </div>
-        </div>
-        }
+      <div className="container">
+        <Toolbar
+          messages={this.state.messages}
+          onHandleSelectAll={this.onHandleSelectAll}
+          onHandleMarkAsRead={this.onHandleMarkAsRead}
+          onHandleMarkAsUnRead={this.onHandleMarkAsUnRead}
+          onHandleAddLabel={this.onHandleAddLabel}
+          onHandleRemoveLabel={this.onHandleRemoveLabel}
+          onHandleDelete={this.onHandleDelete}
+          onHandleCompose={this.onHandleCompose}
+        />
+        <Messages
+          messages={this.state.messages}
+          subject={this.state.subject}
+          body={this.state.body}
+          isCompose={this.state.isCompose}
+          onHandleSelection={this.onHandleSelection}
+          onHandleStarred={this.onHandleStarred}
+          onHandleSubmit={this.onHandleSubmit}
+          onHandleSubjectChange={this.onHandleSubjectChange}
+          onHandleBodyChange={this.onHandleBodyChange}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = function (state) {
-  return {
-    messages: state.messageList.messages,
-    subject: state.subject,
-    body: state.body,
-    isSelectAll: state.messageList.isSelectAll,
-    isCompose: state.isCompose,
-  }
-};
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  onHandleGetMessage: fetchMessages,
-  onHandleSelectAll: selectAllMessages,
-  handleMarkAsRead: markAsRead,
-  handleMarkAsUnread: markAsUnread,
-  handleStarred: starred,
-}, dispatch);
-
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App;
