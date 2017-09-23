@@ -8,9 +8,10 @@ import {
   STARRED_MESSAGE,
   DELETE_MESSAGE,
 } from '../actions'
+import {ADD_LABEL, REMOVE_LABEL} from "../actions/index";
 
 
-function messageList(state = {messages: [], isSelectAll: false}, action) {
+export const messageList = (state = {messages: [], isSelectAll: false}, action) => {
   switch (action.type) {
     case MESSAGES_RECEIVED: {
       return {
@@ -107,7 +108,49 @@ function messageList(state = {messages: [], isSelectAll: false}, action) {
 
       return {
         ...state,
-        messages: messages,
+        messages,
+      };
+    }
+
+    case ADD_LABEL: {
+      // Create a local copy
+      let messages = [];
+      const label = action.payload.label;
+      state.messages.forEach(message => {
+        if (message.selected) {
+          if (!message.labels.includes(label) && label !== 'Apply label') {
+            message.labels.push(label);
+          }
+        }
+        messages.push(message)
+      });
+
+      return {
+        ...state,
+        messages,
+      };
+    }
+
+    case REMOVE_LABEL: {
+      // Create a local copy
+      let messages = [];
+      const label = action.payload.label;
+      state.messages.forEach(message => {
+        if (message.selected) {
+          if (message.labels.includes(label) && label !== 'Apply label') {
+            // Find index.
+            const index = message.labels.indexOf(label);
+            if (index > -1) {
+              message.labels.splice(index, 1);
+            }
+          }
+        }
+        messages.push(message)
+      });
+
+      return {
+        ...state,
+        messages,
       };
     }
 
@@ -115,14 +158,14 @@ function messageList(state = {messages: [], isSelectAll: false}, action) {
       return state;
     }
   }
-}
+};
 
-function message(state = {subject: '', body: '', isCompose: false}, action) {
+export const message = (state = {subject: '', body: '', isCompose: false}, action) => {
   switch (action.type) {
     default:
       return state;
   }
-}
+};
 
 export default combineReducers({
   messageList,
