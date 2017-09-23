@@ -98,25 +98,3 @@ export function deleteMessage(payload) {
     })
   }
 }
-
-export function addLabel(payload) {
-  const options = getOptions(payload);
-  return async (dispatch) => {
-    await fetch(`/api/messages`, options);
-    dispatch({
-      type: ADD_LABEL,
-      payload,
-    })
-  }
-}
-
-export function removeLabel(payload) {
-  const options = getOptions(payload);
-  return async (dispatch) => {
-    await fetch(`/api/messages`, options);
-    dispatch({
-      type: REMOVE_LABEL,
-      payload,
-    })
-  }
-}

@@ -12,8 +12,6 @@ import {
   markAsUnread,
   starred,
   deleteMessage,
-  addLabel,
-  removeLabel,
 } from './actions'
 
 class App extends Component {
@@ -27,17 +25,6 @@ class App extends Component {
 
   componentDidMount() {
     this.props.onHandleGetMessage();
-  }
-
-  getIds(messages) {
-    let messageIds = [];
-    messages.forEach(message => {
-      if (message.selected) {
-        messageIds.push(message.id);
-      }
-    });
-
-    return messageIds;
   }
 
   onHandleStarred = event => {
@@ -121,38 +108,72 @@ class App extends Component {
   };
 
   onHandleAddLabel = event => {
-    if (event.target.value === 'Apply label') {
-      return;
-    }
+    // Copy array to local
+    const messages = this.state.messages.slice();
 
-    // Clone array
-    const messages = this.props.messages.slice();
-
-    let messageIds = this.getIds(messages);
+    let messageIds = [];
+    let labels = [];
     const label = event.target.value;
+    messages.forEach(message => {
+      if (message.selected) {
+        if (!message.labels.includes(label) && label !== 'Apply label') {
+          message.labels.push(label);
+          labels.push(label);
+          messageIds.push(message.id);
+        }
+      }
+    });
+
     const payload = {
       command: "addLabel",
       label,
       messageIds,
     };
-    this.props.handleAddLabel(payload);
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
   };
 
   onHandleRemoveLabel = event => {
-    if (event.target.value === 'Remove label') {
-      return;
-    }
-    // Clone array
-    const messages = this.props.messages.slice();
+    // Copy array to local
+    const messages = this.state.messages.slice();
 
-    let messageIds = this.getIds(messages);
+    let messageIds = [];
     const label = event.target.value;
+    messages.forEach(message => {
+      if (message.selected) {
+        if (message.labels.includes(label) && label !== 'Apply label') {
+
+          // Find index.
+          const index = message.labels.indexOf(label);
+          if (index > -1) {
+            message.labels.splice(index, 1);
+            messageIds.push(message.id);
+          }
+        }
+      }
+    });
+
     const payload = {
       command: "removeLabel",
       label,
       messageIds,
     };
-    this.props.handleRemoveLabel(payload);
+
+    const options = this.onHandleOptions(payload);
+
+    this.onHandleFetch('/api/messages/', options)
+      .then(() => {
+        this.setState({
+          messages,
+        });
+      });
   };
 
   onHandleCompose = () => {
@@ -244,8 +265,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleStarred: starred,
   handleSelectMessage: selectMessage,
   handleDelete: deleteMessage,
-  handleAddLabel: addLabel,
-  handleRemoveLabel: removeLabel,
 }, dispatch);
 
 
