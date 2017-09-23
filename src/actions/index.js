@@ -87,14 +87,3 @@ export function starred(payload) {
     })
   }
 }
-
-export function deleteMessage(payload) {
-  const options = getOptions(payload);
-  return async (dispatch) => {
-    await fetch(`/api/messages`, options);
-    dispatch({
-      type: DELETE_MESSAGE,
-      payload,
-    })
-  }
-}
