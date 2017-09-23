@@ -2,7 +2,6 @@ import {combineReducers} from 'redux'
 import {
   MESSAGES_RECEIVED,
   SELECT_ALL_MESSAGES,
-  SELECT_MESSAGE,
   MARK_AS_READ,
   MARK_AS_UNREAD,
   STARRED_MESSAGE,
@@ -30,13 +29,6 @@ function messageList(state = {messages: [], isSelectAll: false}, action) {
       return {
         isSelectAll,
         messages,
-      };
-    }
-
-    case SELECT_MESSAGE: {
-      return {
-        ...state,
-        messages: action.payload,
       };
     }
 
