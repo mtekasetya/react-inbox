@@ -7,6 +7,8 @@ import {
   MARK_AS_UNREAD,
   STARRED_MESSAGE,
   DELETE_MESSAGE,
+  SUBJECT_CHANGE,
+  BODY_CHANGE,
 } from '../actions'
 import {ADD_LABEL, COMPOSE, REMOVE_LABEL} from "../actions/index";
 
@@ -165,6 +167,20 @@ export const message = (state = {subject: '', body: '', isCompose: false}, actio
     case COMPOSE: {
       return {
         isCompose: action.payload.isCompose
+      }
+    }
+
+    case SUBJECT_CHANGE: {
+      return {
+        ...state,
+        subject: action.payload.subject
+      }
+    }
+
+    case BODY_CHANGE: {
+      return {
+        ...state,
+        body: action.payload.body
       }
     }
 

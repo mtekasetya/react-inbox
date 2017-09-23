@@ -15,6 +15,8 @@ import {
   addLabel,
   removeLabel,
   compose,
+  subjectChange,
+  bodyChange,
 } from './actions'
 
 class App extends Component {
@@ -22,8 +24,6 @@ class App extends Component {
     super(props);
     this.onHandleSelect = this.onHandleSelect.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
-    this.onHandleSubjectChange = this.onHandleSubjectChange.bind(this);
-    this.onHandleBodyChange = this.onHandleBodyChange.bind(this);
   }
 
   componentDidMount() {
@@ -160,16 +160,12 @@ class App extends Component {
     this.props.handleCompose({isCompose: !this.props.isCompose})
   };
 
-  onHandleSubjectChange(value) {
-    this.setState({
-      subject: value
-    })
+  onHandleSubjectChange = event => {
+    this.props.handleSubjectChange(event.target.value);
   };
 
-  onHandleBodyChange(value) {
-    this.setState({
-      body: value
-    })
+  onHandleBodyChange = event => {
+    this.props.handleBodyChange(event.target.value);
   };
 
   async onHandleSubmit(event) {
@@ -248,6 +244,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleAddLabel: addLabel,
   handleRemoveLabel: removeLabel,
   handleCompose: compose,
+  handleSubjectChange: subjectChange,
+  handleBodyChange: bodyChange,
 }, dispatch);
 
 
