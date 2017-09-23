@@ -14,7 +14,6 @@ import {
   deleteMessage,
   addLabel,
   removeLabel,
-  compose,
 } from './actions'
 
 class App extends Component {
@@ -157,7 +156,7 @@ class App extends Component {
   };
 
   onHandleCompose = () => {
-    this.props.handleCompose({isCompose: !this.props.isCompose})
+    this.setState({isCompose: !this.state.isCompose})
   };
 
   onHandleSubjectChange(value) {
@@ -230,10 +229,10 @@ class App extends Component {
 const mapStateToProps = function (state) {
   return {
     messages: state.messageList.messages,
+    subject: state.subject,
+    body: state.body,
     isSelectAll: state.messageList.isSelectAll,
-    subject: state.message.subject,
-    body: state.message.body,
-    isCompose: state.message.isCompose,
+    isCompose: state.isCompose,
   }
 };
 
@@ -247,7 +246,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleDelete: deleteMessage,
   handleAddLabel: addLabel,
   handleRemoveLabel: removeLabel,
-  handleCompose: compose,
 }, dispatch);
 
 

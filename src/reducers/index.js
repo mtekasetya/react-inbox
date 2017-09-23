@@ -8,7 +8,7 @@ import {
   STARRED_MESSAGE,
   DELETE_MESSAGE,
 } from '../actions'
-import {ADD_LABEL, COMPOSE, REMOVE_LABEL} from "../actions/index";
+import {ADD_LABEL, REMOVE_LABEL} from "../actions/index";
 
 
 export const messageList = (state = {messages: [], isSelectAll: false}, action) => {
@@ -162,15 +162,8 @@ export const messageList = (state = {messages: [], isSelectAll: false}, action) 
 
 export const message = (state = {subject: '', body: '', isCompose: false}, action) => {
   switch (action.type) {
-    case COMPOSE: {
-      return {
-        isCompose: action.payload.isCompose
-      }
-    }
-
-    default: {
+    default:
       return state;
-    }
   }
 };
 
