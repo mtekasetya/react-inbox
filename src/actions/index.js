@@ -147,15 +147,3 @@ export function bodyChange(payload) {
     })
   }
 }
-
-export function submit(payload) {
-  const options = getOptions(payload, 'POST');
-  return async (dispatch) => {
-    const response = await fetch(`/api/messages`, options);
-    const message = await response.json();
-    dispatch({
-      type: SUBMIT_MESSAGE,
-      payload: message,
-    })
-  }
-}

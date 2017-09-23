@@ -17,7 +17,6 @@ import {
   compose,
   subjectChange,
   bodyChange,
-  submit,
 } from './actions'
 
 class App extends Component {
@@ -169,15 +168,24 @@ class App extends Component {
     this.props.handleBodyChange(event.target.value);
   };
 
-  onHandleSubmit(event) {
+  async onHandleSubmit(event) {
     event.preventDefault();
+    const messages = this.state.messages.slice();
     const payload = {
-      subject: this.props.subject,
-      body: this.props.body
+      subject: this.state.subject,
+      body: this.state.body
     };
-
-    this.props.handleSubmit(payload);
-  }
+    const options = this.onHandleOptions(payload, 'POST');
+    const response = await this.onHandleFetch('/api/messages/', options);
+    const message = await response.json();
+    messages.push(message);
+    this.setState({
+      messages,
+      isCompose: false, // close the compose email
+      subject: '', // reset
+      body: '', // reset
+    });
+  };
 
   render() {
 
@@ -219,9 +227,9 @@ const mapStateToProps = function (state) {
   return {
     messages: state.messageList.messages,
     isSelectAll: state.messageList.isSelectAll,
-    isCompose: state.messageList.isCompose,
     subject: state.message.subject,
     body: state.message.body,
+    isCompose: state.message.isCompose,
   }
 };
 
@@ -238,7 +246,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleCompose: compose,
   handleSubjectChange: subjectChange,
   handleBodyChange: bodyChange,
-  handleSubmit: submit,
 }, dispatch);
 
 

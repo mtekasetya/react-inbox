@@ -9,12 +9,11 @@ import {
   DELETE_MESSAGE,
   SUBJECT_CHANGE,
   BODY_CHANGE,
-  SUBMIT_MESSAGE,
 } from '../actions'
 import {ADD_LABEL, COMPOSE, REMOVE_LABEL} from "../actions/index";
 
 
-export const messageList = (state = {messages: [], isSelectAll: false, isCompose: false}, action) => {
+export const messageList = (state = {messages: [], isSelectAll: false}, action) => {
   switch (action.type) {
     case MESSAGES_RECEIVED: {
       return {
@@ -157,49 +156,31 @@ export const messageList = (state = {messages: [], isSelectAll: false, isCompose
       };
     }
 
-    case SUBMIT_MESSAGE: {
-      // Create a local copy
-      let messages = [];
-      state.messages.forEach(message => {
-        messages.push(message)
-      });
-
-      messages.push(action.payload);
-
-      return {
-        ...state,
-        isCompose: false,
-        messages,
-      };
-    }
-
-    case COMPOSE: {
-      return {
-        ...state,
-        isCompose: action.payload.isCompose,
-      }
-    }
-
     default: {
       return state;
     }
   }
 };
 
-export const message = (state = {subject: '', body: ''}, action) => {
+export const message = (state = {subject: '', body: '', isCompose: false}, action) => {
   switch (action.type) {
+    case COMPOSE: {
+      return {
+        isCompose: action.payload.isCompose
+      }
+    }
 
     case SUBJECT_CHANGE: {
       return {
         ...state,
-        subject: action.payload
+        subject: action.payload.subject
       }
     }
 
     case BODY_CHANGE: {
       return {
         ...state,
-        body: action.payload
+        body: action.payload.body
       }
     }
 
