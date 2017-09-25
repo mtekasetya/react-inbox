@@ -203,6 +203,14 @@ export const message = (state = {subject: '', body: ''}, action) => {
       }
     }
 
+    case COMPOSE: {
+      return {
+        ...state,
+        subject: '', // reset value
+        body: '', // reset value
+      }
+    }
+
     default: {
       return state;
     }

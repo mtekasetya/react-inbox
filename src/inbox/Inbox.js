@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
 import {bindActionCreators} from 'redux'
 import '../App.css';
 import Messages from './Messages';
@@ -86,7 +85,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleSelectMessage: selectMessage,
 }, dispatch);
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Inbox));
+)(Inbox);

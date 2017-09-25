@@ -26,7 +26,7 @@ const getOptions = (payload, method = 'PATCH') => {
 };
 
 // ACTIONS
-export function fetchMessages() {
+export const fetchMessages = () => {
   return async (dispatch) => {
     const response = await fetch(`/api/messages`);
     const json = await response.json();
@@ -35,27 +35,27 @@ export function fetchMessages() {
       payload: json._embedded.messages
     })
   }
-}
+};
 
-export function selectAllMessages(payload) {
+export const selectAllMessages = payload => {
   return (dispatch) => {
     dispatch({
       type: SELECT_ALL_MESSAGES,
       payload,
     })
   }
-}
+};
 
-export function selectMessage(payload) {
+export const selectMessage = payload => {
   return (dispatch) => {
     dispatch({
       type: SELECT_MESSAGE,
       payload,
     })
   }
-}
+};
 
-export function markAsRead(payload) {
+export const markAsRead = payload => {
   const options = getOptions(payload);
   return async (dispatch) => {
     await fetch(`/api/messages`, options);
@@ -64,9 +64,9 @@ export function markAsRead(payload) {
       payload: null,
     })
   }
-}
+};
 
-export function markAsUnread(payload) {
+export const markAsUnread = payload => {
   const options = getOptions(payload);
   return async (dispatch) => {
     await fetch(`/api/messages`, options);
@@ -75,9 +75,9 @@ export function markAsUnread(payload) {
       payload: null,
     })
   }
-}
+};
 
-export function starred(payload) {
+export const starred = payload => {
   const options = getOptions(payload);
   return async (dispatch) => {
     await fetch(`/api/messages`, options);
@@ -86,9 +86,9 @@ export function starred(payload) {
       payload,
     })
   }
-}
+};
 
-export function deleteMessage(payload) {
+export const deleteMessage = payload => {
   const options = getOptions(payload);
   return async (dispatch) => {
     await fetch(`/api/messages`, options);
@@ -97,9 +97,9 @@ export function deleteMessage(payload) {
       payload,
     })
   }
-}
+};
 
-export function addLabel(payload) {
+export const addLabel = payload => {
   const options = getOptions(payload);
   return async (dispatch) => {
     await fetch(`/api/messages`, options);
@@ -108,9 +108,9 @@ export function addLabel(payload) {
       payload,
     })
   }
-}
+};
 
-export function removeLabel(payload) {
+export const removeLabel = payload => {
   const options = getOptions(payload);
   return async (dispatch) => {
     await fetch(`/api/messages`, options);
@@ -119,36 +119,36 @@ export function removeLabel(payload) {
       payload,
     })
   }
-}
+};
 
-export function compose(payload) {
+export const compose = payload => {
   return dispatch => {
     dispatch({
       type: COMPOSE,
       payload,
     })
   }
-}
+};
 
-export function subjectChange(payload) {
+export const subjectChange = payload => {
   return dispatch => {
     dispatch({
       type: SUBJECT_CHANGE,
       payload,
     })
   }
-}
+};
 
-export function bodyChange(payload) {
+export const bodyChange = payload => {
   return dispatch => {
     dispatch({
       type: BODY_CHANGE,
       payload,
     })
   }
-}
+};
 
-export function submit(payload) {
+export const submit = payload => {
   const options = getOptions(payload, 'POST');
   return async (dispatch) => {
     const response = await fetch(`/api/messages`, options);
@@ -158,4 +158,4 @@ export function submit(payload) {
       payload: message,
     })
   }
-}
+};

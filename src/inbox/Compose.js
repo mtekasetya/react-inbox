@@ -19,7 +19,7 @@ class Compose extends Component {
 
   componentDidMount() {
     if (!this.props.isCompose) {
-      this.props.handleCompose({isCompose: !this.props.isCompose})
+      this.props.updateIsCompose({isCompose: !this.props.isCompose})
     }
   }
 
@@ -39,6 +39,7 @@ class Compose extends Component {
     };
 
     this.props.handleSubmit(payload);
+    this.props.history.push('/');
   }
 
   render() {
@@ -94,7 +95,7 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  handleCompose: compose,
+  updateIsCompose: compose,
   handleSubjectChange: subjectChange,
   handleBodyChange: bodyChange,
   handleSubmit: submit,

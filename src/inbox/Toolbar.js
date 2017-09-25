@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
 import {bindActionCreators} from 'redux'
 import {
   selectAllMessages,
@@ -62,8 +61,8 @@ class Toolbar extends Component {
     return messageIds;
   };
 
-  onHandleCompose = isCompose => {
-    this.props.handleCompose({isCompose: !isCompose})
+  onHandleOpenCloseCompose = isCompose => {
+    this.props.handleUpdateCompose({isCompose: !isCompose})
   };
 
   onHandleAddLabel = event => {
@@ -163,7 +162,7 @@ class Toolbar extends Component {
 
           <Link
             to={`${!this.props.isCompose ? `/compose` : `/`}`}
-            className="btn btn-danger" onClick={() => this.onHandleCompose(this.props.isCompose)}>
+            className="btn btn-danger" onClick={() => this.onHandleOpenCloseCompose(this.props.isCompose)}>
             <i className="fa fa-plus"/>
           </Link>
 
@@ -226,10 +225,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   handleDelete: deleteMessage,
   handleAddLabel: addLabel,
   handleRemoveLabel: removeLabel,
-  handleCompose: compose,
+  handleUpdateCompose: compose,
 }, dispatch);
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Toolbar));
+)(Toolbar);
