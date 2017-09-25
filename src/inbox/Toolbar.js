@@ -4,19 +4,13 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {bindActionCreators} from 'redux'
 import {
-  fetchMessages,
   selectAllMessages,
-  selectMessage,
   markAsRead,
   markAsUnread,
-  starred,
   deleteMessage,
   addLabel,
   removeLabel,
   compose,
-  subjectChange,
-  bodyChange,
-  submit,
 } from '../actions'
 
 class Toolbar extends Component {
@@ -46,18 +40,7 @@ class Toolbar extends Component {
     return !result;
   }
 
-  constructor(props) {
-    super(props);
-    this.getUnreadMessageCount = this.getUnreadMessageCount.bind(this);
-    this.getIds = this.getIds.bind(this);
-    this.onHandleAddLabel = this.onHandleAddLabel.bind(this);
-    this.onHandleRemoveLabel = this.onHandleRemoveLabel.bind(this);
-    this.onHandleMarkAsRead = this.onHandleMarkAsRead.bind(this);
-    this.onHandleMarkAsUnread = this.onHandleMarkAsUnread.bind(this);
-    this.onHandleCompose = this.onHandleCompose.bind(this);
-  }
-
-  getUnreadMessageCount(messages) {
+  getUnreadMessageCount = messages => {
     let unreadCount = 0;
     messages && messages.forEach(m => {
       if (!m.read) {
@@ -68,7 +51,7 @@ class Toolbar extends Component {
     return unreadCount;
   };
 
-  getIds(messages) {
+  getIds = messages => {
     let messageIds = [];
     messages.forEach(message => {
       if (message.selected) {
@@ -77,11 +60,11 @@ class Toolbar extends Component {
     });
 
     return messageIds;
-  }
+  };
 
-  onHandleCompose(isCompose) {
+  onHandleCompose = isCompose => {
     this.props.handleCompose({isCompose: !isCompose})
-  }
+  };
 
   onHandleAddLabel = event => {
     if (event.target.value === 'Apply label') {
@@ -101,7 +84,7 @@ class Toolbar extends Component {
     this.props.handleAddLabel(payload);
   };
 
-  onHandleRemoveLabel(event) {
+  onHandleRemoveLabel = event => {
     if (event.target.value === 'Remove label') {
       return;
     }
@@ -116,9 +99,9 @@ class Toolbar extends Component {
       messageIds,
     };
     this.props.handleRemoveLabel(payload);
-  }
+  };
 
-  onHandleMarkAsRead() {
+  onHandleMarkAsRead = () => {
     let messageIds = [];
     this.props.messages.forEach(message => {
       if (message.selected) {
@@ -133,9 +116,9 @@ class Toolbar extends Component {
     };
 
     this.props.handleMarkAsRead(payload);
-  }
+  };
 
-  onHandleMarkAsUnread() {
+  onHandleMarkAsUnread = () => {
     let messageIds = [];
     this.props.messages.forEach(message => {
       if (message.selected) {
@@ -150,7 +133,24 @@ class Toolbar extends Component {
     };
 
     this.props.handleMarkAsUnread(payload);
-  }
+  };
+
+  onHandleDelete = () => {
+    let messageIds = [];
+    this.props.messages.forEach(message => {
+      if (message.selected) {
+        messageIds.push(message.id);
+      }
+    });
+
+    const payload = {
+      command: "delete",
+      read: false,
+      messageIds,
+    };
+
+    this.props.handleDelete(payload);
+  };
 
   render() {
     return (
@@ -220,19 +220,13 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHandleGetMessage: fetchMessages,
   onHandleSelectAll: selectAllMessages,
   handleMarkAsRead: markAsRead,
   handleMarkAsUnread: markAsUnread,
-  handleStarred: starred,
-  handleSelectMessage: selectMessage,
   handleDelete: deleteMessage,
   handleAddLabel: addLabel,
   handleRemoveLabel: removeLabel,
   handleCompose: compose,
-  handleSubjectChange: subjectChange,
-  handleBodyChange: bodyChange,
-  handleSubmit: submit,
 }, dispatch);
 
 export default withRouter(connect(

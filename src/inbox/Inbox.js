@@ -6,18 +6,8 @@ import '../App.css';
 import Messages from './Messages';
 import {
   fetchMessages,
-  selectAllMessages,
   selectMessage,
-  markAsRead,
-  markAsUnread,
   starred,
-  deleteMessage,
-  addLabel,
-  removeLabel,
-  compose,
-  subjectChange,
-  bodyChange,
-  submit,
 } from '../actions'
 
 class Inbox extends Component {
@@ -43,23 +33,6 @@ class Inbox extends Component {
     };
 
     this.props.handleStarred(payload);
-  };
-
-  onHandleDelete = () => {
-    let messageIds = [];
-    this.props.messages.forEach(message => {
-      if (message.selected) {
-        messageIds.push(message.id);
-      }
-    });
-
-    const payload = {
-      command: "delete",
-      read: false,
-      messageIds,
-    };
-
-    this.props.handleDelete(payload);
   };
 
   onHandleSelect({id, checked}) {
@@ -88,7 +61,7 @@ class Inbox extends Component {
         {this.props.messages.length &&
         <div>
           <div className="container">
-            <Messages {...messagesProps} {...messagesProps}/>
+            <Messages {...messagesProps}/>
           </div>
         </div>
         }
@@ -109,18 +82,8 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   onHandleGetMessage: fetchMessages,
-  onHandleSelectAll: selectAllMessages,
-  handleMarkAsRead: markAsRead,
-  handleMarkAsUnread: markAsUnread,
   handleStarred: starred,
   handleSelectMessage: selectMessage,
-  handleDelete: deleteMessage,
-  handleAddLabel: addLabel,
-  handleRemoveLabel: removeLabel,
-  handleCompose: compose,
-  handleSubjectChange: subjectChange,
-  handleBodyChange: bodyChange,
-  handleSubmit: submit,
 }, dispatch);
 
 export default withRouter(connect(

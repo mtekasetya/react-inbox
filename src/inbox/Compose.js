@@ -15,7 +15,6 @@ class Compose extends Component {
     this.onHandleSubjectChange = this.onHandleSubjectChange.bind(this);
     this.onHandleBodyChange = this.onHandleBodyChange.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
-    //debugger;
   }
 
   componentDidMount() {
