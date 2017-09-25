@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 export const getClassName = (read, selected) => `row message ${read ? `read` : `unread`} ${selected ? `selected` : ``}`.trim();
 export const getStartClassName = starred => `star fa fa-star${starred ? `` : `-o`}`.trim();
@@ -10,7 +11,7 @@ export const getLabels = labels => {
   });
 };
 
-const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred}) => (
+const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred, onHandleOpenMessage}) => (
   <div>
     <div className={getClassName(read, selected)}>
       <div className="col-xs-1">
@@ -37,9 +38,9 @@ const Message = ({id, subject, read, starred, labels, selected, onHandleSelectio
       </div>
       <div className="col-xs-11">
         {getLabels(labels)}
-        <a href="/#">
+        <Link to={`/messages/${id}`} onClick={onHandleOpenMessage}>
           {subject}
-        </a>
+        </Link>
       </div>
     </div>
   </div>

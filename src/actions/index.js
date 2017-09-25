@@ -1,5 +1,6 @@
 // CONSTANTS
 export const MESSAGES_RECEIVED = 'MESSAGES_RECEIVED';
+export const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED';
 export const SELECT_ALL_MESSAGES = 'SELECT_ALL_MESSAGES';
 export const STARRED_MESSAGE = 'STARRED_MESSAGE';
 export const MARK_AS_READ = 'MARK_AS_READ';
@@ -33,6 +34,17 @@ export const fetchMessages = () => {
     dispatch({
       type: MESSAGES_RECEIVED,
       payload: json._embedded.messages
+    })
+  }
+};
+
+export const fetchMessage = (id) => {
+  return async (dispatch) => {
+    const response = await fetch(`/api/messages/${id}`);
+    const message = await response.json();
+    dispatch({
+      type: MESSAGE_RECEIVED,
+      payload: message
     })
   }
 };

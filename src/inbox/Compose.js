@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {bindActionCreators} from 'redux'
 import {
+  fetchMessage,
   compose,
   subjectChange,
   bodyChange,
@@ -18,6 +19,11 @@ class Compose extends Component {
   }
 
   componentDidMount() {
+    const id = this.props.match.params.id;
+    if (id) {
+      this.props.onHandleGetMessage(id);
+    }
+
     if (!this.props.isCompose) {
       this.props.updateIsCompose({isCompose: !this.props.isCompose})
     }
@@ -95,6 +101,7 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  onHandleGetMessage: fetchMessage,
   updateIsCompose: compose,
   handleSubjectChange: subjectChange,
   handleBodyChange: bodyChange,

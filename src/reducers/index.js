@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import {
   MESSAGES_RECEIVED,
+  MESSAGE_RECEIVED,
   SELECT_ALL_MESSAGES,
   SELECT_MESSAGE,
   MARK_AS_READ,
@@ -186,8 +187,17 @@ export const messageList = (state = {messages: [], isSelectAll: false, isCompose
   }
 };
 
-export const message = (state = {subject: '', body: ''}, action) => {
+export const message = (state = {id: 0, subject: '', body: ''}, action) => {
   switch (action.type) {
+
+    case MESSAGE_RECEIVED: {
+      return {
+        ...state,
+        id: action.payload.id,
+        subject: action.payload.subject,
+        body: action.payload.body,
+      }
+    }
 
     case SUBJECT_CHANGE: {
       return {

@@ -5,6 +5,7 @@ const Messages = ({
                     messages,
                     onHandleSelect,
                     onHandleStarred,
+                    onHandleOpenMessage,
                   }) => (
   <div>
     {messages && messages.map(message => {
@@ -13,6 +14,7 @@ const Messages = ({
           key={message.id}
           onHandleSelection={onHandleSelect}
           onHandleStarred={onHandleStarred}
+          onHandleOpenMessage={onHandleOpenMessage}
           {...message}/>
       );
     })}

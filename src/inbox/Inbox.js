@@ -16,7 +16,7 @@ class Inbox extends Component {
   }
 
   componentDidMount() {
-    this.props.onHandleGetMessage();
+    this.props.onHandleGetMessages();
   }
 
   onHandleStarred = event => {
@@ -48,11 +48,16 @@ class Inbox extends Component {
     this.props.handleSelectMessage(messages);
   };
 
+  openMessage = () => {
+    console.log('Hello');
+  };
+
   render() {
     const messagesProps = {
       messages: this.props.messages,
       onHandleSelect: this.onHandleSelect,
       onHandleStarred: this.onHandleStarred,
+      onHandleOpenMessage: this.openMessage,
     };
 
     return (
@@ -80,7 +85,7 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHandleGetMessage: fetchMessages,
+  onHandleGetMessages: fetchMessages,
   handleStarred: starred,
   handleSelectMessage: selectMessage,
 }, dispatch);

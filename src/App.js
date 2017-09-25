@@ -10,6 +10,7 @@ const App = () => (
     <div className="container">
       <Toolbar/>
       <Switch>
+        <Route path="/messages/:id" exact component={Compose}/>
         <Route path="/compose" exact component={Compose}/>
       </Switch>
       <Inbox/>
