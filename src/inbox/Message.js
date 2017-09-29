@@ -11,7 +11,7 @@ export const getLabels = labels => {
   });
 };
 
-const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred, onHandleOpenMessage}) => (
+const Message = ({id, subject, read, starred, labels, selected, onHandleSelection, onHandleStarred, onHandleOpenMessage, isCompose}) => (
   <div className={getClassName(read, selected)}>
     <div className="col-xs-1">
       <div className="row">
@@ -37,7 +37,7 @@ const Message = ({id, subject, read, starred, labels, selected, onHandleSelectio
     </div>
     <div className="col-xs-11">
       {getLabels(labels)}
-      <Link to={`/messages/${id}`} onClick={onHandleOpenMessage}>
+      <Link to={!isCompose ? `/messages/${id}` : `/`} onClick={onHandleOpenMessage}>
         {subject}
       </Link>
     </div>

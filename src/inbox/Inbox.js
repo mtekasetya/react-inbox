@@ -7,6 +7,7 @@ import {
   fetchMessages,
   selectMessage,
   starred,
+  compose,
 } from '../actions'
 
 class Inbox extends Component {
@@ -49,7 +50,7 @@ class Inbox extends Component {
   };
 
   openMessage = () => {
-    console.log('Opening message...')
+    this.props.handleUpdateCompose({isCompose: !this.props.isCompose})
   };
 
 
@@ -59,6 +60,7 @@ class Inbox extends Component {
       onHandleSelect: this.onHandleSelect,
       onHandleStarred: this.onHandleStarred,
       onHandleOpenMessage: this.openMessage,
+      isCompose: this.props.isCompose,
     };
 
     return (
@@ -75,13 +77,10 @@ class Inbox extends Component {
   }
 }
 
-const mapStateToProps = function (state) {
+const mapStateToProps = state => {
   return {
     messages: state.messageList.messages,
-    isSelectAll: state.messageList.isSelectAll,
     isCompose: state.messageList.isCompose,
-    subject: state.message.subject,
-    body: state.message.body,
   }
 };
 
@@ -89,6 +88,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   onHandleGetMessages: fetchMessages,
   handleStarred: starred,
   handleSelectMessage: selectMessage,
+  handleUpdateCompose: compose,
 }, dispatch);
 
 export default connect(
