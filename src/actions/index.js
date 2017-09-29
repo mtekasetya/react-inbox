@@ -39,13 +39,28 @@ export const fetchMessages = () => {
 };
 
 export const fetchMessage = (id) => {
+  const messageIds = [];
+  messageIds.push(parseInt(id, 10));
+  const payload = {
+    command: "read",
+    read: true,
+    messageIds,
+  };
+
+  const options = getOptions(payload);
   return async (dispatch) => {
     const response = await fetch(`/api/messages/${id}`);
+    await fetch(`/api/messages`, options);
     const message = await response.json();
     dispatch({
       type: MESSAGE_RECEIVED,
       payload: message
-    })
+    });
+
+    dispatch({
+      type: MARK_AS_READ,
+      payload,
+    });
   }
 };
 
@@ -73,7 +88,7 @@ export const markAsRead = payload => {
     await fetch(`/api/messages`, options);
     dispatch({
       type: MARK_AS_READ,
-      payload: null,
+      payload,
     })
   }
 };
@@ -84,7 +99,7 @@ export const markAsUnread = payload => {
     await fetch(`/api/messages`, options);
     dispatch({
       type: MARK_AS_UNREAD,
-      payload: null,
+      payload,
     })
   }
 };

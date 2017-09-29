@@ -50,7 +50,7 @@ export const messageList = (state = {messages: [], isSelectAll: false, isCompose
       // Create a local copy
       let messages = [];
       state.messages.forEach(message => {
-        if (message.selected) {
+        if (action.payload.messageIds.includes(message.id)) {
           message.read = true;
         }
         messages.push(message)
@@ -66,7 +66,7 @@ export const messageList = (state = {messages: [], isSelectAll: false, isCompose
       // Create a local copy
       let messages = [];
       state.messages.forEach(message => {
-        if (message.selected) {
+        if (action.payload.messageIds.includes(message.id)) {
           message.read = false;
         }
         messages.push(message)

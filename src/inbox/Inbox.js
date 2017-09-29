@@ -49,8 +49,9 @@ class Inbox extends Component {
   };
 
   openMessage = () => {
-    console.log('Hello');
+    console.log('Opening message...')
   };
+
 
   render() {
     const messagesProps = {
