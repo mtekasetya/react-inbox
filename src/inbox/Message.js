@@ -19,7 +19,7 @@ const Message = ({id, subject, read, starred, labels, selected, onHandleSelectio
           <input
             id={id}
             type="checkbox"
-            checked={selected}
+            checked={selected ? selected : false}
             onChange={(e) => onHandleSelection({
               id,
               checked: e.target.checked,

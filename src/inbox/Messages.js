@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import '../App.css';
 import Message from './Message';
 import {
-  fetchMessages,
+  getMessages,
   selectMessage,
   starred,
   compose,
@@ -57,11 +57,10 @@ class Messages extends Component {
   render() {
     return (
       <div>
-        {this.props.messages.length &&
         <div>
           <div className="container">
             <div>
-              {this.props.messages && this.props.messages.map(message => {
+              {this.props.messages.map(message => {
                 return (
                   <Message
                     key={message.id}
@@ -75,7 +74,6 @@ class Messages extends Component {
             </div>
           </div>
         </div>
-        }
       </div>
     );
   }
@@ -89,7 +87,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHandleGetMessages: fetchMessages,
+  onHandleGetMessages: getMessages,
   handleStarred: starred,
   handleSelectMessage: selectMessage,
   handleUpdateCompose: compose,

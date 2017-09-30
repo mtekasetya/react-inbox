@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {bindActionCreators} from 'redux'
 import {
-  fetchMessage,
+  getMessage,
   compose,
   subjectChange,
   bodyChange,
@@ -101,7 +101,7 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHandleGetMessage: fetchMessage,
+  onHandleGetMessage: getMessage,
   updateIsCompose: compose,
   handleSubjectChange: subjectChange,
   handleBodyChange: bodyChange,

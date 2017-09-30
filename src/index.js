@@ -8,10 +8,10 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import {Provider} from 'react-redux';
-import {fetchMessages} from './actions';
+import {getMessages} from './actions';
 
 
-store.dispatch(fetchMessages());
+store.dispatch(getMessages());
 
 ReactDOM.render(
   <Provider store={store}>
