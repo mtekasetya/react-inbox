@@ -1,7 +1,7 @@
 import React from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
-import Inbox from './inbox/Inbox';
+import Messages from './inbox/Messages';
 import Toolbar from './inbox/Toolbar';
 import Compose from './inbox/Compose';
 
@@ -13,7 +13,7 @@ const App = () => (
         <Route path="/messages/:id" exact component={Compose}/>
         <Route path="/compose" exact component={Compose}/>
       </Switch>
-      <Inbox/>
+      <Messages/>
     </div>
   </Router>
 );
