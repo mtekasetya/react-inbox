@@ -5,7 +5,6 @@ import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
 import configureMockStore from 'redux-mock-store'
 import fetchMock from 'fetch-mock'
-import renderer from 'react-test-renderer';
 import App from './App';
 
 const middlewares = [thunk];
@@ -18,7 +17,7 @@ const store = mockStore({
   }
 });
 
-describe('App', () => {
+describe('App.js', () => {
   afterEach(() => {
     fetchMock.restore()
   });
